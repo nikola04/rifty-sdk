@@ -1,0 +1,37 @@
+{
+  "name": "rifty-sdk",
+  "version": "1.0.0",
+  "description": "SDK for Riot Games - League of Legends API",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsup src/index.ts --format cjs,esm --dts --clean",
+    "dev": "tsup src/index.ts --format cjs,esm --watch --dts",
+    "test": "NODE_ENV=test vitest run",
+    "test:watch": "NODE_ENV=test vitest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nikola04/rifty-api-client.git"
+  },
+  "author": "Nikola Nedeljkovic",
+  "license": "GPL-3.0-only",
+  "bugs": {
+    "url": "https://github.com/nikola04/rifty-api-client/issues"
+  },
+  "homepage": "https://github.com/nikola04/rifty-api-client#readme",
+  "devDependencies": {
+    "@types/node": "^25.0.6",
+    "dotenv": "^17.2.3",
+    "msw": "^2.12.7",
+    "tsup": "^8.5.1",
+    "typescript": "^5.9.3",
+    "vite-tsconfig-paths": "^6.0.4",
+    "vitest": "^3.2.4"
+  },
+  "dependencies": {
+    "bottleneck": "^2.19.5",
+    "redis": "^5.10.0"
+  }
+}

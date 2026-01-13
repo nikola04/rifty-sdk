@@ -3,26 +3,26 @@
  * @see {@link https://developer.riotgames.com/apis#match-v5/GET_getMatchIdsByPUUID}
  */
 export interface MatchFilters {
-    /** * Epoch timestamp in seconds. 
+    /** * Epoch timestamp in seconds.
      * The match list will only include matches played after this date.
      */
     startTime?: number;
 
-    /** * Epoch timestamp in seconds. 
+    /** * Epoch timestamp in seconds.
      * The match list will only include matches played before this date.
      */
     endTime?: number;
 
-    /** * Filter by a specific queue ID. 
+    /** * Filter by a specific queue ID.
      * Common IDs: 420 (Ranked Solo), 440 (Ranked Flex), 450 (ARAM).
      */
     queue?: number;
 
-    /** * Filter by match type. 
+    /** * Filter by match type.
      */
-    type?: 'ranked' | 'normal' | 'tourney' | 'tutorial';
+    type?: "ranked" | "normal" | "tourney" | "tutorial";
 
-    /** * The index to start fetching matches from (defaults to 0). 
+    /** * The index to start fetching matches from (defaults to 0).
      * Use this for pagination.
      */
     start?: number;
@@ -111,7 +111,7 @@ export interface ParticipantDTO {
     teamId: number;
     /** Indicates if the participant won the match */
     win: boolean;
-    
+
     // Combat Stats
     /** Total kills achieved by the player */
     kills: number;
@@ -125,7 +125,7 @@ export interface ParticipantDTO {
     totalDamageTaken: number;
     /** Total gold earned during the match */
     goldEarned: number;
-    
+
     // Position
     /** Best guess for the position played (e.g., "TOP", "JUNGLE", "MIDDLE", "BOTTOM", "UTILITY") */
     individualPosition: string;

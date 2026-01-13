@@ -11,7 +11,7 @@ export class MatchCollection implements Iterable<RiotMatch> {
     /**
      * Metadata about the query used to fetch this collection (pagination, filters, etc.)
      */
-    public readonly meta: MatchFilters|null;
+    public readonly meta: MatchFilters | null;
 
     /**
      * @param items - An array of RiotMatch entities to wrap in the collection.
@@ -30,10 +30,10 @@ export class MatchCollection implements Iterable<RiotMatch> {
     public getWinrate(): number {
         const fetched = this.items.filter(m => m.isFetched);
         if (fetched.length === 0) return 0;
-        
+
         let wins = 0;
         for (const match of fetched) {
-            const myStats = match.getMe(); 
+            const myStats = match.getMe();
             if (myStats?.win) wins++;
         }
 
@@ -49,7 +49,7 @@ export class MatchCollection implements Iterable<RiotMatch> {
      */
     public async fetchAll(options = { force: false, concurrency: 3 }): Promise<void> {
         const unfetched = this.items.filter(m => options.force || !m.isFetched);
-        
+
         for (let i = 0; i < unfetched.length; i += options.concurrency) {
             const batch = unfetched.slice(i, i + options.concurrency);
             await Promise.all(batch.map(match => match.fetch(options)));
@@ -71,8 +71,7 @@ export class MatchCollection implements Iterable<RiotMatch> {
      * @returns The RiotMatch instance at the given position, or undefined if out of bounds.
      */
     public get(position: number): RiotMatch | undefined {
-        if (position < 0 || position >= this.count)
-            return undefined;
+        if (position < 0 || position >= this.count) return undefined;
         return this.items[position];
     }
 

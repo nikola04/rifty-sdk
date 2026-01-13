@@ -1,0 +1,18 @@
+# Build
+dist/
+build/
+
+# Dependencies
+node_modules/
+
+# Git
+.github/
+.git/
+
+# Cache
+.eslintcache
+
+# 
+LICENSE
+package*.json
+*.md

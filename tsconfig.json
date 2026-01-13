@@ -1,27 +1,28 @@
 {
-  "compilerOptions": {
-    "target": "ESNext",
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
-    "lib": ["ESNext"],
-    "declaration": true,
-    "declarationMap": true,
-    "sourceMap": true,
-    "outDir": "./dist",
-    "rootDir": ".",
-    "strict": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
+    "compilerOptions": {
+        "target": "ESNext",
+        "module": "NodeNext",
+        "moduleResolution": "NodeNext",
+        "lib": ["ESNext"],
+        "declaration": true,
+        "declarationMap": true,
+        "sourceMap": true,
+        "outDir": "./dist",
+        "rootDir": ".",
+        "strict": true,
+        "esModuleInterop": true,
+        "skipLibCheck": true,
+        "forceConsistentCasingInFileNames": true,
 
-    "baseUrl": ".",
-    "paths": {
-      "@core/*": ["src/core/*"],
-      "@modules/*": ["src/modules/*"],
-      "@utils/*": ["src/shared/utils/*"],
-      "@rifty": ["src/index.ts"]
-    }
-  },
-  "include": ["src/**/*", "tests/"],
-  "exclude": ["node_modules", "dist"]
+        "baseUrl": ".",
+        "paths": {
+            "@core/*": ["src/core/*"],
+            "@modules/*": ["src/modules/*"],
+            "@shared/*": ["src/shared/*"],
+            "@utils/*": ["src/shared/utils/*"],
+            "@rifty": ["src/index.ts"]
+        }
+    },
+    "include": ["src/**/*", "tests/"],
+    "exclude": ["node_modules", "dist"]
 }

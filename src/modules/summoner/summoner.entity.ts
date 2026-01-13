@@ -1,15 +1,17 @@
-import { RiotPlatform } from 'src/shared/types/common';
-import { RiotSummonerDTO } from './summoner.dto';
-import { RiotAccount } from '@modules/account/account.entity';
-import { getRegionFromPlatform } from 'src/shared/utils/utils'
-import { RiftySDK } from '@rifty';
-import { MatchFilters } from '@modules/match/match.dto';
-import { RiotMatch } from '@modules/match/match.entity';
-import { MatchCollection } from '@modules/match/match.collection';
+import { RiotAccount } from "@modules/account/account.entity";
+import { MatchCollection } from "@modules/match/match.collection";
+import { MatchFilters } from "@modules/match/match.dto";
+
+import { RiotPlatform } from "@shared/types/common";
+import { getRegionFromPlatform } from "@shared/utils/utils";
+
+import { RiftySDK } from "@rifty";
+
+import { RiotSummonerDTO } from "./summoner.dto";
 
 /**
  * High-level entity representing a Summoner with helper methods.
-*/
+ */
 export class RiotSummoner implements RiotSummonerDTO {
     #sdk: RiftySDK;
     private _data: RiotSummonerDTO;
@@ -22,7 +24,7 @@ export class RiotSummoner implements RiotSummonerDTO {
         data: RiotSummonerDTO,
         platform: RiotPlatform,
         updatedAt: number,
-        account?: RiotAccount
+        account?: RiotAccount,
     ) {
         this.#sdk = sdk;
         this._data = data;
@@ -31,11 +33,21 @@ export class RiotSummoner implements RiotSummonerDTO {
         this._account = account;
     }
 
-    get puuid() { return this._data.puuid; }
-    get profileIconId() { return this._data.profileIconId; }
-    get revisionDate() { return this._data.revisionDate; }
-    get summonerLevel() { return this._data.summonerLevel; }
-    get platform() { return this._platform }
+    get puuid() {
+        return this._data.puuid;
+    }
+    get profileIconId() {
+        return this._data.profileIconId;
+    }
+    get revisionDate() {
+        return this._data.revisionDate;
+    }
+    get summonerLevel() {
+        return this._data.summonerLevel;
+    }
+    get platform() {
+        return this._platform;
+    }
 
     /**
      * Returns the associated RiotAccount entity if it was provided during instantiation.
@@ -51,7 +63,7 @@ export class RiotSummoner implements RiotSummonerDTO {
 
         const region = getRegionFromPlatform(this.platform);
         const account = await this.#sdk.account.getByPuuid(region, this.puuid);
-        
+
         this._account = account;
         return account;
     }
@@ -76,10 +88,10 @@ export class RiotSummoner implements RiotSummonerDTO {
 
     async fetch(): Promise<this> {
         const fresh = await this.#sdk.summoner.getByPuuid(this.platform, this.puuid, { force: true });
-        
+
         this._data = fresh.toDTO();
         this._lastFetched = fresh.lastFetched;
-        
+
         return this;
     }
 
@@ -99,7 +111,7 @@ export class RiotSummoner implements RiotSummonerDTO {
             ...this.toDTO(),
             platform: this.platform,
             lastFetched: this._lastFetched.toISOString(),
-            account: this._account?.toJSON()
+            account: this._account?.toJSON(),
         };
     }
 }

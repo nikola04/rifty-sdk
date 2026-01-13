@@ -1,7 +1,7 @@
 import { IRiftyCache } from "./cache";
 
 export class MemoryCache implements IRiftyCache {
-    private storage = new Map<string, { data: any; expiresAt: number|null }>();
+    private storage = new Map<string, { data: unknown; expiresAt: number | null }>();
 
     async get<T>(key: string): Promise<T | null> {
         const item = this.storage.get(key);
@@ -20,5 +20,7 @@ export class MemoryCache implements IRiftyCache {
         });
     }
 
-    get isReady(): boolean { return true; }
+    get isReady(): boolean {
+        return true;
+    }
 }

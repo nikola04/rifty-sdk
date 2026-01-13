@@ -1,7 +1,10 @@
-import { RiotPlatform, RiotRegion } from 'src/shared/types/common';
-import { RiotAccountDTO } from './account.dto';
-import { RiftySDK } from '@rifty';
-import { RiotSummoner } from '@modules/summoner/summoner.entity';
+import { RiotSummoner } from "@modules/summoner/summoner.entity";
+
+import { RiotPlatform, RiotRegion } from "@shared/types/common";
+
+import { RiftySDK } from "@rifty";
+
+import { RiotAccountDTO } from "./account.dto";
 
 /**
  * High-level entity representing a Riot Account.
@@ -11,22 +14,25 @@ export class RiotAccount implements RiotAccountDTO {
     private _data: RiotAccountDTO;
     private _region: RiotRegion;
     private _lastFetched: Date;
-    constructor(
-        sdk: RiftySDK,
-        data: RiotAccountDTO,
-        region: RiotRegion,
-        updatedAt: number
-    ) {
+    constructor(sdk: RiftySDK, data: RiotAccountDTO, region: RiotRegion, updatedAt: number) {
         this.#sdk = sdk;
         this._data = data;
         this._region = region;
         this._lastFetched = new Date(updatedAt);
     }
 
-    get puuid() { return this._data.puuid; }
-    get gameName() { return this._data.gameName; }
-    get tagLine() { return this._data.tagLine; }
-    get region() { return this._region; }
+    get puuid() {
+        return this._data.puuid;
+    }
+    get gameName() {
+        return this._data.gameName;
+    }
+    get tagLine() {
+        return this._data.tagLine;
+    }
+    get region() {
+        return this._region;
+    }
 
     /**
      * Helper to get the full Riot ID string (e.g. "Faker#KR1")
@@ -43,7 +49,9 @@ export class RiotAccount implements RiotAccountDTO {
     }
 
     async fetch(): Promise<this> {
-        const fresh = await this.#sdk.account.getByGameNameAndTag(this.region, this.gameName, this.tagLine, { force: true });
+        const fresh = await this.#sdk.account.getByGameNameAndTag(this.region, this.gameName, this.tagLine, {
+            force: true,
+        });
 
         this._data = fresh.toDTO();
         this._lastFetched = fresh.lastFetched;
@@ -68,10 +76,10 @@ export class RiotAccount implements RiotAccountDTO {
     }
 
     toJSON() {
-        return ({
+        return {
             ...this.toDTO(),
             fullId: this.fullId,
-            lastFetched: this._lastFetched.toISOString()
-        });
+            lastFetched: this._lastFetched.toISOString(),
+        };
     }
 }

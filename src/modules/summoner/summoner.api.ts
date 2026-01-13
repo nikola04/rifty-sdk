@@ -1,8 +1,11 @@
-import { RiftySDK, RiotAccount } from '@rifty';
-import { RiotSummonerDTO } from './summoner.dto';
-import { RiotSummoner } from './summoner.entity';
-import { RiftyBase } from '@core/base';
-import { RiotPlatform } from 'src/shared/types/common';
+import { RiftyBase, RiftyConfig } from "@core/base";
+
+import { RiotPlatform } from "@shared/types/common";
+
+import { RiftySDK, RiotAccount } from "@rifty";
+
+import { RiotSummonerDTO } from "./summoner.dto";
+import { RiotSummoner } from "./summoner.entity";
 
 /**
  * Interface for the Summoner-V4 API endpoints.
@@ -12,7 +15,10 @@ export class SummonerAPI extends RiftyBase {
      * @param config - Internal SDK configuration
      * @param sdk - Reference to the main SDK instance
      */
-    constructor(config: any, private sdk: RiftySDK) {
+    constructor(
+        config: RiftyConfig,
+        private sdk: RiftySDK,
+    ) {
         super(config);
     }
 
@@ -23,8 +29,19 @@ export class SummonerAPI extends RiftyBase {
      * @returns A hydrated RiotSummoner entity
      * @throws Error if the API request fails
      */
-    async getByPuuid(platform: RiotPlatform, puuid: string, options: { force?: boolean, account?: RiotAccount | undefined } = { force: false, account: undefined }): Promise<RiotSummoner> {
-        const { data, updatedAt } = await this.request<RiotSummonerDTO>(platform, `/lol/summoner/v4/summoners/by-puuid/${puuid}`, { cacheTTL: 3600, force: options.force });
+    async getByPuuid(
+        platform: RiotPlatform,
+        puuid: string,
+        options: { force?: boolean; account?: RiotAccount | undefined } = { force: false, account: undefined },
+    ): Promise<RiotSummoner> {
+        const { data, updatedAt } = await this.request<RiotSummonerDTO>(
+            platform,
+            `/lol/summoner/v4/summoners/by-puuid/${puuid}`,
+            {
+                cacheTTL: 3600,
+                force: options.force,
+            },
+        );
         return new RiotSummoner(this.sdk, data, platform, updatedAt, options.account);
     }
 }

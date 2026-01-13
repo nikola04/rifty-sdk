@@ -13,7 +13,16 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '24'
+          cache: 'npm'
       - run: npm ci
-      - run: npm test
+      
+      - name: Lint check
+        run: npm run lint
+
+      - name: Format check
+        run: npx prettier --check .
+
+      - name: Test
+        run: npm test
         env:
           RIOT_API_KEY: ${{ secrets.RIOT_API_KEY }}

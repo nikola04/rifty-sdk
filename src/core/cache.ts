@@ -5,7 +5,13 @@ export interface IRiftyCache {
 }
 
 export class DummyCache implements IRiftyCache {
-    async get<T>(): Promise<T | null> { return null; }
-    async set(): Promise<void> { return; }
-    get isReady(): boolean { return false; }
+    async get<T>(): Promise<T | null> {
+        return null;
+    }
+    async set(): Promise<void> {
+        return;
+    }
+    get isReady(): boolean {
+        return false;
+    }
 }

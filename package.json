@@ -4,7 +4,9 @@
   "description": "SDK for Riot Games - League of Legends API",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "publishConfig": {
     "access": "public"
   },
@@ -12,13 +14,24 @@
     "build": "tsup src/index.ts --format cjs,esm --dts --clean",
     "dev": "tsup src/index.ts --format cjs,esm --watch --dts",
     "test": "NODE_ENV=test vitest run",
-    "test:watch": "NODE_ENV=test vitest"
+    "test:watch": "NODE_ENV=test vitest",
+    "lint": "npx eslint src/",
+    "lint:fix": "npx eslint src/ --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "prepare": "husky install"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/nikola04/rifty-sdk.git"
   },
-  "keywords": ["riot-games", "league-of-legends", "sdk", "api", "valorant"],
+  "keywords": [
+    "riot-games",
+    "league-of-legends",
+    "sdk",
+    "api",
+    "valorant"
+  ],
   "author": "Nikola Nedeljkovic",
   "license": "GPL-3.0-only",
   "bugs": {
@@ -26,16 +39,30 @@
   },
   "homepage": "https://github.com/nikola04/rifty-sdk#readme",
   "devDependencies": {
+    "@trivago/prettier-plugin-sort-imports": "^6.0.2",
     "@types/node": "^25.0.6",
     "dotenv": "^17.2.3",
+    "eslint": "^9.39.2",
+    "globals": "^17.0.0",
+    "husky": "^8.0.0",
+    "jiti": "^2.6.1",
+    "lint-staged": "^16.2.7",
     "msw": "^2.12.7",
+    "prettier": "3.7.4",
     "tsup": "^8.5.1",
     "typescript": "^5.9.3",
+    "typescript-eslint": "^8.53.0",
     "vite-tsconfig-paths": "^6.0.4",
     "vitest": "^3.2.4"
   },
   "dependencies": {
     "bottleneck": "^2.19.5",
     "redis": "^5.10.0"
+  },
+  "lint-staged": {
+    "src/**/*.{ts,js}": [
+      "eslint --fix",
+      "prettier --write"
+    ]
   }
 }

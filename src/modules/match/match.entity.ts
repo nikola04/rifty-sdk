@@ -1,4 +1,5 @@
-import { getRegionFromPlatform, MatchContext, RiftySDK, RiotRegion, RiotSummoner } from "@rifty";
+import { MatchContext, RiftySDK, RiotRegion, RiotSummoner, getRegionFromPlatform } from "@rifty";
+
 import { InfoDTO, MatchDTO, ParticipantDTO } from "./match.dto";
 
 export class RiotMatch {
@@ -29,7 +30,7 @@ export class RiotMatch {
         if (this._data && !options.force) return this;
 
         const match = await this.#sdk.match.getById(this.matchId, { region: this.#region }, options);
-        
+
         this._data = match._data;
         return this;
     }
@@ -45,7 +46,7 @@ export class RiotMatch {
      */
     public getMe(): ParticipantDTO | null {
         if (!this.info || !this.summoner) return null;
-        
+
         return this.info.participants.find(p => p.puuid === this.summoner!.puuid) || null;
     }
 
@@ -60,8 +61,7 @@ export class RiotMatch {
     }
 
     get metadata() {
-        if (!this._data)
-            return null;
+        if (!this._data) return null;
         return this._data.metadata;
     }
 

@@ -1,14 +1,18 @@
 import { RiftyBase, RiftyConfig } from "@core/base";
-import { getRegionFromPlatform, MatchContext, RiftySDK, RiotRegion } from "@rifty";
-import { RiotMatch } from "./match.entity";
+
+import { MatchContext, RiftySDK, getRegionFromPlatform } from "@rifty";
+
 import { MatchDTO, MatchFilters } from "./match.dto";
-import { MatchCollection } from "./match.collection";
+import { RiotMatch } from "./match.entity";
 
 /**
  * Service for interacting with the League of Legends Match-V5 API.
  */
 export class MatchAPI extends RiftyBase {
-    constructor(config: RiftyConfig, private sdk: RiftySDK) {
+    constructor(
+        config: RiftyConfig,
+        private sdk: RiftySDK,
+    ) {
         super(config);
     }
 
@@ -19,13 +23,27 @@ export class MatchAPI extends RiftyBase {
      * @param filters - Optional filters like start index, count, queue type, etc.
      * @returns An Array containing RiotMatch instances.
      */
-    public async getListByPuuid(puuid: string, context: MatchContext, filters: MatchFilters = {}): Promise<RiotMatch[]> {
-        const query = new URLSearchParams(filters as any).toString();
+    public async getListByPuuid(
+        puuid: string,
+        context: MatchContext,
+        filters: MatchFilters = {},
+    ): Promise<RiotMatch[]> {
+        const cleanFilters = Object.entries(filters).reduce(
+            (acc, [key, val]) => {
+                if (val !== undefined && val !== null) {
+                    acc[key] = String(val);
+                }
+                return acc;
+            },
+            {} as Record<string, string>,
+        );
+
+        const query = new URLSearchParams(cleanFilters).toString();
         const endpoint = `/lol/match/v5/matches/by-puuid/${puuid}/ids?${query}`;
-        
+
         // Resolve the regional route (americas, europe, etc.) from context
         const region = context.region || getRegionFromPlatform(context.summoner!.platform);
-        
+
         const { data } = await this.request<string[]>(region, endpoint, {
             // todo: add caching and rate limiting here
         });
@@ -45,7 +63,7 @@ export class MatchAPI extends RiftyBase {
         const region = context.region || getRegionFromPlatform(context.summoner!.platform);
 
         const { data } = await this.request<MatchDTO>(region, endpoint, {
-            force: options.force
+            force: options.force,
         });
 
         return new RiotMatch(this.sdk, matchId, context, data);

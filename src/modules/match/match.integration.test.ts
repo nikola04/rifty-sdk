@@ -58,7 +58,6 @@ describe('Match Module (Integration)', () => {
         expect(collection).toBeInstanceOf(MatchCollection);
         expect(collection.count).toBeGreaterThan(0);
         
-        console.log(collection);
         expect(collection.meta).not.toBeNull();
         expect(collection.meta?.count).toBe(10);
     });

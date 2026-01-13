@@ -1,5 +1,4 @@
 name: Publish to NPM
-
 on:
   push:
     branches:
@@ -8,6 +7,9 @@ on:
 jobs:
   test-and-publish:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -21,16 +23,13 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Run Unit & Integration Tests
+      - name: Run Tests
         run: npm test
         env:
-          NODE_ENV: test
           RIOT_API_KEY: ${{ secrets.RIOT_API_KEY }}
 
       - name: Build project
         run: npm run build
 
       - name: Publish to NPM
-        run: npm publish --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm publish --access public --provenance

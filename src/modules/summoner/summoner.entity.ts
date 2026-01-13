@@ -1,8 +1,11 @@
-import { RiotPlatform } from 'src/types/common';
+import { RiotPlatform } from 'src/shared/types/common';
 import { RiotSummonerDTO } from './summoner.dto';
 import { RiotAccount } from '@modules/account/account.entity';
-import { getRegionFromPlatform } from '@utils/utils'
+import { getRegionFromPlatform } from 'src/shared/utils/utils'
 import { RiftySDK } from '@rifty';
+import { MatchFilters } from '@modules/match/match.dto';
+import { RiotMatch } from '@modules/match/match.entity';
+import { MatchCollection } from '@modules/match/match.collection';
 
 /**
  * High-level entity representing a Summoner with helper methods.
@@ -51,6 +54,17 @@ export class RiotSummoner implements RiotSummonerDTO {
         
         this._account = account;
         return account;
+    }
+
+    /**
+     * Retrieves a list of match instances for this summoner.
+     * The region is automatically resolved from the summoner's platform.
+     * * @param filters - Criteria to filter the match list (e.g., queue, type, count).
+     * @returns A promise that resolves to an array of RiotMatch entities.
+     */
+    public async getMatches(filters: MatchFilters = {}): Promise<MatchCollection> {
+        const matches = await this.#sdk.match.getListByPuuid(this.puuid, { summoner: this }, filters);
+        return new MatchCollection(matches, filters);
     }
 
     /**

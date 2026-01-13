@@ -1,4 +1,4 @@
-import { RiotPlatform, RiotRegion } from 'src/types/common';
+import { RiotPlatform, RiotRegion } from 'src/shared/types/common';
 import { RiotAccountDTO } from './account.dto';
 import { RiftySDK } from '@rifty';
 import { RiotSummoner } from '@modules/summoner/summoner.entity';

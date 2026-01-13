@@ -1,6 +1,6 @@
 import { RiftySDK } from '@rifty';
 import { RiftyBase, RiftyConfig } from '@core/base';
-import { RiotRegion } from 'src/types/common';
+import { RiotRegion } from 'src/shared/types/common';
 import { RiotAccount } from './account.entity';
 import { RiotAccountDTO } from './account.dto';
 
@@ -20,7 +20,7 @@ export class AccountAPI extends RiftyBase {
      * @param tagLine The Riot ID tag
      */
     public async getByGameNameAndTag(region: RiotRegion, gameName: string, tagLine: string, options: { force: boolean } = { force: false }): Promise<RiotAccount> {
-        const { data, updatedAt } = await this.request<RiotAccountDTO>(region,`/riot/account/v1/accounts/by-riot-id/${encodeURIComponent(gameName)}/${tagLine}`, 3600, options.force);
+        const { data, updatedAt } = await this.request<RiotAccountDTO>(region,`/riot/account/v1/accounts/by-riot-id/${encodeURIComponent(gameName)}/${tagLine}`, { cacheTTL: 3600, force: options.force });
 
         return new RiotAccount(this.sdk, data, region, updatedAt);
     }
@@ -32,7 +32,7 @@ export class AccountAPI extends RiftyBase {
      * @returns 
      */
     public async getByPuuid(region: any, puuid: string, options: { force: boolean } = { force: false }): Promise<RiotAccount> {
-        const { data, updatedAt } = await this.request<RiotAccountDTO>(region, `/riot/account/v1/accounts/by-puuid/${puuid}`, 3600, options.force);
+        const { data, updatedAt } = await this.request<RiotAccountDTO>(region, `/riot/account/v1/accounts/by-puuid/${puuid}`, { cacheTTL: 3600, force: options.force });
 
         return new RiotAccount(this.sdk, data, region, updatedAt);
     }

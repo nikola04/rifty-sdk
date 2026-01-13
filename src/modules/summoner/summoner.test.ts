@@ -33,8 +33,10 @@ describe('SummonerAPI (Unit)', () => {
         expect(requestSpy).toHaveBeenCalledWith(
             'euw1', 
             '/lol/summoner/v4/summoners/by-puuid/puuid-123',
-            3600,
-            false // default force parameter
+            expect.objectContaining({
+                cacheTTL: 3600,
+                force: false
+            })
         );
     });
 

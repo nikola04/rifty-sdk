@@ -29,8 +29,10 @@ describe('AccountAPI (Unit)', () => {
         expect(requestSpy).toHaveBeenCalledWith(
             'asia', 
             expect.stringContaining('by-riot-id/Faker/KR1'),
-            3600,
-            false
+            expect.objectContaining({
+                cacheTTL: 3600,
+                force: false
+            })
         );
 
         expect(result).toBeInstanceOf(RiotAccount);
@@ -47,8 +49,10 @@ describe('AccountAPI (Unit)', () => {
         expect(requestSpy).toHaveBeenCalledWith(
             'americas',
             expect.any(String),
-            expect.any(Number),
-            true
+            expect.objectContaining({
+                cacheTTL: 3600,
+                force: true
+            })
         );
     });
 
@@ -62,8 +66,10 @@ describe('AccountAPI (Unit)', () => {
         expect(requestSpy).toHaveBeenCalledWith(
             'europe', 
             expect.stringContaining('Name%20With%20Space'),
-            expect.any(Number),
-            expect.any(Boolean)
+            expect.objectContaining({
+                cacheTTL: 3600,
+                force: false
+            })
         );
     });
 });

@@ -8,7 +8,7 @@
     "declarationMap": true,
     "sourceMap": true,
     "outDir": "./dist",
-    "rootDir": "./src",
+    "rootDir": ".",
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
@@ -18,10 +18,10 @@
     "paths": {
       "@core/*": ["src/core/*"],
       "@modules/*": ["src/modules/*"],
-      "@utils/*": ["src/utils/*"],
+      "@utils/*": ["src/shared/utils/*"],
       "@rifty": ["src/index.ts"]
     }
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "tests/"],
   "exclude": ["node_modules", "dist"]
 }

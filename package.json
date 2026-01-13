@@ -1,10 +1,13 @@
 {
   "name": "rifty-sdk",
-  "version": "1.0.0",
+  "version": "1.0.1-beta",
   "description": "SDK for Riot Games - League of Legends API",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": ["dist"],
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "tsup src/index.ts --format cjs,esm --dts --clean",
     "dev": "tsup src/index.ts --format cjs,esm --watch --dts",
@@ -15,6 +18,7 @@
     "type": "git",
     "url": "git+https://github.com/nikola04/rifty-api-client.git"
   },
+  "keywords": ["riot-games", "league-of-legends", "sdk", "api", "valorant"],
   "author": "Nikola Nedeljkovic",
   "license": "GPL-3.0-only",
   "bugs": {

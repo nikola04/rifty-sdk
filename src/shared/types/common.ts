@@ -1,3 +1,8 @@
+import { RiotSummoner } from "@modules/summoner";
+
 export type RiotRegion = 'europe' | 'americas' | 'asia' | 'sea' | 'esports';
 export type RiotPlatform = 'br1' | 'eun1' | 'euw1' | 'jp1' | 'kr' | 'la1' | 'la2' | 'na1' | 'oc1' | 'tr1' | 'ru' | 'ph2' | 'sg2' | 'th2' | 'tw2' | 'vn2';
 
+export type MatchContext = 
+    | { region: RiotRegion; summoner?: never } 
+    | { summoner: RiotSummoner; region?: never };

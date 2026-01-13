@@ -12,15 +12,15 @@ export default defineConfig({
             extends: true,
             test: {
                 name: 'unit',
-                include: ['src/**/*.spec.ts', 'src/**/*.test.ts'],
-                exclude: ['src/**/*.int.test.ts', 'src/**/*.integration.test.ts'],
+                include: ['src/**/*.spec.ts', 'src/**/*.test.ts', 'tests/**/*.spec.ts', 'tests/**/*.test.ts'],
+                exclude: ['src/**/*.int.test.ts', 'src/**/*.integration.test.ts', 'tests/**/*.int.ts', 'tests/**/*.integration.ts'],
                 environment: 'node',
             }
         }, {
             extends: true,
             test: {
                 name: 'integration',
-                include: ['src/**/*.int.test.ts', 'src/**/*.integration.test.ts'],
+                include: ['src/**/*.int.test.ts', 'src/**/*.integration.test.ts', 'tests/**/*.int.ts', 'tests/**/*.integration.ts'],
                 environment: 'node',
                 testTimeout: 5000,
                 poolOptions: {

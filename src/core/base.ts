@@ -1,6 +1,6 @@
 import { createClient, RedisClientType } from 'redis';
 import Bottleneck from 'bottleneck'
-import { RiotRegion, RiotPlatform } from 'src/types/common';
+import { RiotRegion, RiotPlatform } from 'src/shared/types/common';
 
 export interface RiftyConfig {
   apiKey: string;
@@ -31,14 +31,19 @@ export class RiftyBase {
         }
     }
 
-    protected async request<T>(region: RiotRegion|RiotPlatform, endpoint: string, cacheTtl = 3600, force = false): Promise<CacheWrapper<T>> {
-        const url = `https://${region}.api.riotgames.com${endpoint}`;
+    protected async request<T>(region: RiotRegion|RiotPlatform, endpoint: string, options: { cacheTTL?: number, force?: boolean, limiterName?: string } = {
+        cacheTTL: 3600,
+        force: false,
+        limiterName: 'default'
+    }): Promise<CacheWrapper<T>> {
+        const cleanEndpoint = endpoint.startsWith('/') ? endpoint.slice(1) : endpoint;
+        const url = `https://${region}.api.riotgames.com/${cleanEndpoint}`;
 
         const envPrefix = process.env.NODE_ENV || 'development';
         const prefix = this.config.cachePrefix || `rifty:${envPrefix}`;
-        const cacheKey = `${prefix}:riot:cache:${url}`;
+        const cacheKey = `${prefix}:riot:cache:${region}:${cleanEndpoint}`;
 
-        if (this.redis?.isReady && !force) {
+        if (this.redis?.isReady && !options.force) {
             try {
                 const cached = await this.redis.get(cacheKey);
                 if (cached) return JSON.parse(cached) as CacheWrapper<T>;
@@ -58,7 +63,7 @@ export class RiftyBase {
             const wrapper: CacheWrapper<T> = { data, updatedAt: Date.now() };
 
             if (this.redis?.isReady){
-                this.redis.set(cacheKey, JSON.stringify(wrapper), { EX: cacheTtl }).catch((e) => console.warn("RiftySDK Cache Write Error:", e));
+                this.redis.set(cacheKey, JSON.stringify(wrapper), { EX: options.cacheTTL }).catch((e) => console.warn("RiftySDK Cache Write Error:", e));
             }
 
             return wrapper;

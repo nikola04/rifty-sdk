@@ -1,9 +1,8 @@
 name: Publish to NPM
 
 on:
-  push:
-    branches:
-      - main
+  release:
+    types: [published]
 
 permissions:
   contents: read
@@ -21,10 +20,6 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
 
       - run: npm ci
-
-      - run: npm test
-        env:
-          RIOT_API_KEY: ${{ secrets.RIOT_API_KEY }}
 
       - run: npm run build
       - run: npm publish

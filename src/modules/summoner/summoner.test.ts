@@ -3,7 +3,7 @@ import { RiftySDK, RiotAccount } from '@rifty';
 import { RiotSummoner } from './summoner.entity';
 
 describe('SummonerAPI (Unit)', () => {
-    const sdk = new RiftySDK({ apiKey: 'test-key' });
+    const sdk = new RiftySDK({ apiKey: 'test-key', cache: 'memory' });
     
     const mockData = {
         puuid: 'puuid-123',

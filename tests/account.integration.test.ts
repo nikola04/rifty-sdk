@@ -4,7 +4,7 @@ import { describe, expect, it } from "vitest";
 describe('SDK Integration Flow', () => {
     const sdk = new RiftySDK({ 
         apiKey: process.env.RIOT_API_KEY!, 
-        redisUrl: process.env.REDIS_URL 
+        cache: 'memory'
     });
 
     it('should perform a full cross-module flow: Account -> Summoner -> Account', async () => {

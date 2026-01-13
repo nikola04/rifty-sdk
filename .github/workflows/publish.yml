@@ -21,10 +21,11 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Run Unit Tests
+      - name: Run Unit & Integration Tests
         run: npm test
         env:
           NODE_ENV: test
+          RIOT_API_KEY: ${{ secrets.RIOT_API_KEY }}
 
       - name: Build project
         run: npm run build

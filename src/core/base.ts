@@ -1,11 +1,13 @@
 import { createClient, RedisClientType } from 'redis';
 import Bottleneck from 'bottleneck'
 import { RiotRegion, RiotPlatform } from 'src/shared/types/common';
+import { DummyCache, IRiftyCache } from './cache';
+import { RedisCache } from './redis.cache';
+import { MemoryCache } from './memory.cache';
 
 export interface RiftyConfig {
   apiKey: string;
-  redisUrl?: string;
-  redisClient?: RedisClientType;
+  cache?: 'memory'|RedisClientType|null;
   cachePrefix?: string;
 }
 
@@ -16,19 +18,18 @@ interface CacheWrapper<T> {
 
 export class RiftyBase {
     protected limiter: Bottleneck;
-    protected redis?: RedisClientType;
+    protected cache: IRiftyCache;
 
     constructor(protected config: RiftyConfig) {
         this.limiter = new Bottleneck({
             minTime: 50, // 20 req/s
         });
 
-        if (config.redisClient)
-            this.redis = config.redisClient;
-        else if (config.redisUrl) {
-            this.redis = createClient({ url: config.redisUrl });
-            this.redis.connect().catch((err) => console.error("RiftySDK: Redis connection failed", err));
-        }
+        if (config.cache && isRedisClient(config.cache))
+            this.cache = new RedisCache(config.cache);
+        else if (typeof config.cache === 'string' && config.cache === 'memory')
+            this.cache = new MemoryCache();
+        else this.cache = new DummyCache();
     }
 
     protected async request<T>(region: RiotRegion|RiotPlatform, endpoint: string, options: { cacheTTL?: number, force?: boolean, limiterName?: string } = {
@@ -43,10 +44,10 @@ export class RiftyBase {
         const prefix = this.config.cachePrefix || `rifty:${envPrefix}`;
         const cacheKey = `${prefix}:riot:cache:${region}:${cleanEndpoint}`;
 
-        if (this.redis?.isReady && !options.force) {
+        if (this.cache.isReady && !options.force) {
             try {
-                const cached = await this.redis.get(cacheKey);
-                if (cached) return JSON.parse(cached) as CacheWrapper<T>;
+                const cached = await this.cache.get<CacheWrapper<T>>(cacheKey);
+                if (cached) return cached;
             } catch (e) {
                 console.warn("RiftySDK Cache Read Error:", e);
             }
@@ -62,11 +63,15 @@ export class RiftyBase {
             const data = await res.json() as T;
             const wrapper: CacheWrapper<T> = { data, updatedAt: Date.now() };
 
-            if (this.redis?.isReady){
-                this.redis.set(cacheKey, JSON.stringify(wrapper), { EX: options.cacheTTL }).catch((e) => console.warn("RiftySDK Cache Write Error:", e));
+            if (this.cache.isReady){
+                this.cache.set(cacheKey, wrapper, { ttlSeconds: options.cacheTTL }).catch((e) => console.warn("RiftySDK Cache Write Error:", e));
             }
 
             return wrapper;
         });
     }
+}
+
+function isRedisClient(cache: any): cache is RedisClientType {
+    return cache && typeof cache.get === 'function' && typeof cache.set === 'function';
 }

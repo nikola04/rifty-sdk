@@ -6,7 +6,7 @@ describe('AccountAPI (Unit)', () => {
     let sdk: RiftySDK;
 
     beforeEach(() => {
-        sdk = new RiftySDK({ apiKey: 'test-key' });
+        sdk = new RiftySDK({ apiKey: 'test-key', cache: 'memory' });
         vi.clearAllMocks();
     });
 

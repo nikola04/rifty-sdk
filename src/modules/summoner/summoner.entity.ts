@@ -75,7 +75,6 @@ export class RiotSummoner implements RiotSummonerDTO {
     }
 
     async fetch(): Promise<this> {
-        // Pozivamo API preko SDK-a da osvežimo podatke
         const fresh = await this.#sdk.summoner.getByPuuid(this.platform, this.puuid, { force: true });
         
         this._data = fresh.toDTO();

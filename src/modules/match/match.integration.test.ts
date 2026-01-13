@@ -12,6 +12,7 @@ describe('Match Module (Integration)', () => {
     beforeAll(async () => {
         sdk = new RiftySDK({
             apiKey: process.env.RIOT_API_KEY!,
+            cache: 'memory'
         });
 
         const account = await sdk.account.getByGameNameAndTag('europe', "Ivan Draskic", "TATA");

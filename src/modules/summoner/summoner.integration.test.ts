@@ -3,9 +3,8 @@ import { RiftySDK } from '@rifty';
 
 describe('SummonerAPI (Integration)', () => {
     const apiKey = process.env.RIOT_API_KEY!;
-    const redisUrl = process.env.REDIS_URL;
 
-    const sdk = new RiftySDK({ apiKey, redisUrl });
+    const sdk = new RiftySDK({ apiKey, cache: 'memory' });
 
     beforeAll(async () => {
         // Safety check for NODE_ENV

@@ -1,6 +1,6 @@
 {
   "name": "rifty-sdk",
-  "version": "1.0.2-beta",
+  "version": "1.0.2",
   "description": "SDK for Riot Games - League of Legends API",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -16,15 +16,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/nikola04/rifty-api-client.git"
+    "url": "git+https://github.com/nikola04/rifty-sdk.git"
   },
   "keywords": ["riot-games", "league-of-legends", "sdk", "api", "valorant"],
   "author": "Nikola Nedeljkovic",
   "license": "GPL-3.0-only",
   "bugs": {
-    "url": "https://github.com/nikola04/rifty-api-client/issues"
+    "url": "https://github.com/nikola04/rifty-sdk/issues"
   },
-  "homepage": "https://github.com/nikola04/rifty-api-client#readme",
+  "homepage": "https://github.com/nikola04/rifty-sdk#readme",
   "devDependencies": {
     "@types/node": "^25.0.6",
     "dotenv": "^17.2.3",

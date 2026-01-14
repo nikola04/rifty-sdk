@@ -19,8 +19,14 @@ export const RIOT_PLATFORMS: RiotPlatform[] = [
     "vn2",
 ];
 
+export const RIOT_REGIONS: RiotRegion[] = ["americas", "asia", "europe", "sea", "esports"];
+
 export const isPlatform = (loc: string): loc is RiotPlatform => {
     return RIOT_PLATFORMS.includes(loc as RiotPlatform);
+};
+
+export const isRegion = (loc: string): loc is RiotRegion => {
+    return RIOT_REGIONS.includes(loc as RiotRegion);
 };
 
 /**

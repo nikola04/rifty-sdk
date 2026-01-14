@@ -19,7 +19,7 @@ export class RiftySDK {
 }
 
 export * from "@shared/types/common";
-export { isPlatform, getRegionFromPlatform } from "@shared/utils/utils";
+export { isPlatform, isRegion, getRegionFromPlatform } from "@shared/utils/utils";
 
 export * from "@modules/account";
 export * from "@modules/summoner";
